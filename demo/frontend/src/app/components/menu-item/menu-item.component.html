@@ -1,0 +1,30 @@
+<div class="menu-item" [style.paddingLeft]="getPaddingLeft()">
+  <div 
+    class="menu-item-content"
+    [class.has-children]="tieneHijos()"
+    [class.expanded]="expandido"
+    [class.sidebar-collapsed]="sidebarCollapsed"
+    (click)="toggleExpandido(); navegar()"
+    [attr.title]="sidebarCollapsed ? opcion.nombre : null"
+  >
+    <span *ngIf="tieneHijos() && !sidebarCollapsed" class="toggle-icon">
+      {{ expandido ? '▼' : '▶' }}
+    </span>
+    <span *ngIf="!tieneHijos() && !sidebarCollapsed" class="spacer"></span>
+    
+    <span *ngIf="opcion.icono" class="menu-icon">
+      <i [class]="opcion.icono"></i>
+    </span>
+    
+    <span *ngIf="!sidebarCollapsed" class="menu-text">{{ opcion.nombre }}</span>
+  </div>
+
+  <div *ngIf="tieneHijos() && expandido && !sidebarCollapsed" class="menu-children">
+    <app-menu-item 
+      *ngFor="let hijo of opcion.hijos" 
+      [opcion]="hijo" 
+      [nivel]="nivel + 1"
+      [sidebarCollapsed]="sidebarCollapsed"
+    ></app-menu-item>
+  </div>
+</div>

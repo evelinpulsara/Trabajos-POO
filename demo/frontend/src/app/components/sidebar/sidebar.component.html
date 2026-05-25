@@ -1,0 +1,36 @@
+<div class="sidebar-container" [class.collapsed]="sidebarCollapsed">
+  <div class="sidebar-header">
+    <div class="logo-section">
+      <div class="logo-icon">💜</div>
+      <h2 *ngIf="!sidebarCollapsed" class="logo-text">Mi Aplicación</h2>
+    </div>
+    <button class="toggle-btn" (click)="toggleSidebar()">
+      {{ sidebarCollapsed ? '☰' : '✕' }}
+    </button>
+  </div>
+
+  <div class="sidebar-content">
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando menú...</p>
+    </div>
+
+    <div *ngIf="!loading && menuOpciones.length === 0" class="empty-menu">
+      <p>No hay opciones de menú disponibles</p>
+    </div>
+
+    <nav *ngIf="!loading && menuOpciones.length > 0" class="menu-nav">
+      <app-menu-item 
+        *ngFor="let opcion of menuOpciones" 
+        [opcion]="opcion"
+        [sidebarCollapsed]="sidebarCollapsed"
+      ></app-menu-item>
+    </nav>
+  </div>
+
+  <div class="sidebar-footer" *ngIf="!sidebarCollapsed">
+    <button class="logout-btn" (click)="logout()">
+      <span>🚪</span> Cerrar Sesión
+    </button>
+  </div>
+</div>

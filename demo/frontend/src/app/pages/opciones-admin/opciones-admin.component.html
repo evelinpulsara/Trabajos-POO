@@ -1,0 +1,81 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Administrar Menú</h1>
+    <button class="btn-primary" (click)="openModal()">+ Nueva Opción</button>
+  </div>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Padre ID</th>
+          <th>Ruta</th>
+          <th>Icono</th>
+          <th>Orden</th>
+          <th>Activo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let opcion of opciones">
+          <td>{{ opcion.id }}</td>
+          <td>{{ opcion.nombre }}</td>
+          <td>{{ opcion.padre_opcion_id || '—' }}</td>
+          <td>{{ opcion.ruta || '—' }}</td>
+          <td>{{ opcion.icono || '—' }}</td>
+          <td>{{ opcion.orden }}</td>
+          <td>
+            <span [class]="opcion.activo ? 'badge-active' : 'badge-inactive'">
+              {{ opcion.activo ? 'Sí' : 'No' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-edit" (click)="openModal(opcion)">Editar</button>
+            <button class="btn-delete" (click)="deleteOpcion(opcion.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>{{ editingOpcion ? 'Editar Opción' : 'Nueva Opción' }}</h2>
+        <button class="btn-close" (click)="closeModal()">×</button>
+      </div>
+      <form [formGroup]="opcionForm" (ngSubmit)="saveOpcion()">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" formControlName="nombre">
+        </div>
+        <div class="form-group">
+          <label>Padre ID (null para raíz)</label>
+          <input type="number" formControlName="padre_opcion_id">
+        </div>
+        <div class="form-group">
+          <label>Ruta</label>
+          <input type="text" formControlName="ruta" placeholder="/ejemplo">
+        </div>
+        <div class="form-group">
+          <label>Icono</label>
+          <input type="text" formControlName="icono" placeholder="fas fa-home">
+        </div>
+        <div class="form-group">
+          <label>Orden</label>
+          <input type="number" formControlName="orden">
+        </div>
+        <div class="form-group checkbox-group">
+          <input type="checkbox" formControlName="activo" id="activo">
+          <label for="activo">Activo</label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="btn-primary" [disabled]="!opcionForm.valid">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

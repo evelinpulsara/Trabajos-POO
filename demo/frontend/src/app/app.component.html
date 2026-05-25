@@ -1,0 +1,9 @@
+<ng-container *ngIf="authService.isAuthenticated()">
+  <app-sidebar (onToggle)="onSidebarToggle($event)" (onLogout)="logout()"></app-sidebar>
+  <main class="main-content" [class.collapsed]="sidebarCollapsed">
+    <router-outlet></router-outlet>
+  </main>
+</ng-container>
+<ng-container *ngIf="!authService.isAuthenticated()">
+  <router-outlet></router-outlet>
+</ng-container>
